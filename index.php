@@ -29,26 +29,30 @@ include("includes/header.php");
             //user found, create cookie
             $cookie_value = $usr;
             setcookie($cookie_name, $cookie_value);
+        } else {
+            echo "<p>Incorrect Login Details. Please Try Again.</p>";
         }
 
     }
 
 ?>
 
-    <form method="post" action="">
+    <form class="form-horizontal" method="post" action="">
         <div class="form-group">
-            <label for="username">
+            <label class="col-sm-2 control-label" for="username">
                 Username
             </label>
-            <input type="text" name="username" id="username"/>
+            <input class="col-sm-4 form-control-static" type="text" name="username" id="username">
         </div>
         <div class="form-group">
-            <label for="password">
+            <label class="col-sm-2 control-label" for="password">
                 Password
             </label>
-            <input type="password" name="password" id="password"/>
+            <input class="col-sm-4 form-control-static" type="password" name="password" id="password">
         </div>
-        <button type="submit" class="btn btn-success" name="login-submit">Log in</button>
+        <div class="row">
+            <button class="btn btn-success col-sm-offset-2 col-sm-2" type="submit" name="login-submit">Log in</button>
+        </div>
     </form>
 
 <?php
