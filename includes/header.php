@@ -20,6 +20,19 @@ if(!$conn) {
     die("Database Connection Failed: ".mysqli_connect_error());
 }
 
+/**
+ * @param $id
+ * id of div
+ * @param $message
+ * message content as string
+ * @param $timer
+ * time div is to remain visible
+ */
+function create_error_message($id, $message, $timer) {
+    echo "<div id='$id'>".$message."</div>";
+    echo "<script>setTimeout(function() { $('#".$id."').fadeOut().empty(); }, $timer);</script>";
+}
+
 ?>
 <!doctype html>
 <html class="no-js" lang="">

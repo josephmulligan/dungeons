@@ -7,14 +7,24 @@ include("includes/header.php");
 
     if(isset($_POST['login-submit'])) {
         //get login variables
-        $usr = $_POST['username'];
-        $pwd = $_POST['password'];
+        if (isset($_POST['username'])) {
+            $usr = htmlspecialchars($_POST['username']);
+        } else {
+            $usr = "";
+            create_error_message("no_user", "Please enter a valid username.", 5000);
+        }
+        if (isset($_POST['password'])) {
+            $pwd = htmlspecialchars($_POST['password']);
+        } else {
+            $pwd = "";
+            create_error_message("no_pass", "Please enter a password.", 5000);
+        }
         //get password as SHA-1 hash
         $phash = sha1(sha1($pwd."salt")."salt");
 
         //log user in using credentials
         //set cookie to logged in
-        $cookie_name = "loggedIn";
+        $cookie_name = "logged-in";
 
         //query the database
         $query = "select * from users where username = '$usr' and password = '$phash'";
@@ -30,30 +40,40 @@ include("includes/header.php");
             $cookie_value = $usr;
             setcookie($cookie_name, $cookie_value);
         } else {
-            echo "<p>Incorrect Login Details. Please Try Again.</p>";
+            create_error_message("incorrect-login", "Incorrect Login Details. Please Try Again.", 5000);
         }
 
     }
 
 ?>
 
-    <form class="form-horizontal" method="post" action="">
+    <form action="" method="post" class="form-horizontal" role="form">
         <div class="form-group">
-            <label class="col-sm-2 control-label" for="username">
-                Username
-            </label>
-            <input class="col-sm-4 form-control-static" type="text" name="username" id="username">
+            <legend>Log In</legend>
         </div>
+
         <div class="form-group">
-            <label class="col-sm-2 control-label" for="password">
-                Password
-            </label>
-            <input class="col-sm-4 form-control-static" type="password" name="password" id="password">
+            <label for="username" class="col-sm-2 control-label">Username</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" id="username" placeholder="Username">
+            </div>
         </div>
-        <div class="row">
-            <button class="btn btn-success col-sm-offset-2 col-sm-2" type="submit" name="login-submit">Log in</button>
+
+        <div class="form-group">
+            <label for="password" class="col-sm-2 control-label">Password</label>
+            <div class="col-sm-10">
+                <input type="password" class="form-control" id="password" placeholder="Password">
+            </div>
+        </div>
+
+
+        <div class="form-group">
+            <div class="col-sm-10 col-sm-offset-2">
+                <button type="submit" class="btn btn-primary" id="login-submit">Submit</button>
+            </div>
         </div>
     </form>
+<p>Not got an account? <a href="register.php">Sign up for free</a>.</p>
 
 <?php
 include("includes/footer.php");
