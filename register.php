@@ -14,17 +14,28 @@ if(isset($_POST['submit'])) {
     if (!empty($_POST['name'])) {
         $name = $_POST['name'];
     } else {
-        $error = $error." Please include a name."
+        $error = " Please include a name.";
     }
     if (!empty($_POST['username'])) {
         $usr = $_POST['username'];
         //check for similar username
         $query = "select * from users where username='$usr';";
-        $result = mysqli_result()
+        $result = mysqli_result($conn, $query);
+        $count = mysqli_num_rows($result);
+        if($count > 0) {
+            $error = "Username already taken.";
+        }
     } else {
-        $error = $error." Please include a valid username."
+        $error = " Please include a valid username.";
     }
-    $pwd = $_POST['password'];
+    if (!empty($_POST['password'])) {
+        $pwd = $_POST['password'];
+        if(strlen($pwd) < 8) {
+            $error = "Password is too short!";
+        }
+    } else {
+        $error = "Please provide a password.";
+    }
 }
 
 ?>
